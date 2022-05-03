@@ -1,2 +1,2 @@
 # software-architectures
-Implementing some software architecture and computational model for reference in future.
+This is a repo that consists bare minimum of software architecture and computational model implemented, so it can act as future reference for myself.
