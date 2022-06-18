@@ -17,8 +17,8 @@ type Publisher struct {
 	Filepath          string // a file from where it reads and publishes data to all subscribers. change publisher source as required.
 }
 
-type Subscribers struct {
-	SubscriberId string
+type Subscriber struct {
+	Id string
 	// add any required subscriber field here
 }
 
@@ -65,20 +65,20 @@ func (p *Publisher) StartPublisher() {
 
 }
 
-func (p *Publisher) StartSubscriber(subscriberId string) {
+func (p *Publisher) StartSubscriber(subscriber Subscriber) {
 	// maintain atomicity in this part of code
 	p.Locker.Lock()
 	ch := make(chan string)
 	errCh := make(chan error)
-	p.Subscribers[subscriberId] = ch
-	p.SubscribersErrors[subscriberId] = errCh
+	p.Subscribers[subscriber.Id] = ch
+	p.SubscribersErrors[subscriber.Id] = errCh
 	p.Locker.Unlock()
-	log.Printf("Subscriber %v initalized successfully", subscriberId)
+	log.Printf("Subscriber %v initalized successfully", subscriber.Id)
 	defer func() {
 		// should HARDLY ever panic. Almost never panics just for unforeseen circumstances.
 		if err := recover(); err != nil {
-			log.Printf("Subscriber %v teminated cause of panic", subscriberId)
-			p.SafeRemove(subscriberId)
+			log.Printf("Subscriber %v teminated cause of panic", subscriber.Id)
+			p.SafeRemove(subscriber.Id)
 
 		}
 
@@ -90,14 +90,14 @@ func (p *Publisher) StartSubscriber(subscriberId string) {
 	for {
 		select {
 		case value := <-ch:
-			log.Printf("Received value %v on subscriber %v", value, subscriberId)
+			log.Printf("Received value %v on subscriber %v", value, subscriber.Id)
 
 		case <-time.After(time.Second * 30):
-			log.Printf("Haven't received log in 30 sec on subsccriber %v", subscriberId)
+			log.Printf("Haven't received log in 30 sec on subsccriber %v", subscriber.Id)
 
 			select {
 			case <-errCh:
-				log.Printf("Detected error on subscriber %v", subscriberId)
+				log.Printf("Detected error on subscriber %v", subscriber.Id)
 				return
 			default:
 				continue
@@ -117,6 +117,7 @@ func (p *Publisher) RemoveSubscriber(SubscriberId string) {
 
 }
 
+// Only if subscriber ever panics will this function be activated
 func (p *Publisher) SafeRemove(SubscriberId string) {
 	p.Locker.Lock()
 	defer p.Locker.Unlock()

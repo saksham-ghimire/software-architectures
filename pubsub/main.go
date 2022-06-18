@@ -13,8 +13,13 @@ func main() {
 	}
 
 	go pub.StartPublisher()
-
-	go pub.StartSubscriber("s1")
-	go pub.StartSubscriber("s2")
+	s1 := manager.Subscriber{
+		Id: "s1",
+	}
+	s2 := manager.Subscriber{
+		Id: "s2",
+	}
+	go pub.StartSubscriber(s1)
+	go pub.StartSubscriber(s2)
 	select {}
 }
