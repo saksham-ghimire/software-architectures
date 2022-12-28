@@ -6,6 +6,7 @@ An search algorithm that works on **sorted** list and returns index of element m
 
 ## Flowchart
 <!-- picture here -->
+![flowchart](https://github.com/saksham-ghimire/software-architectures/blob/main/algorithms/binary-search/binary_search.jpg)
 
 ## Pseudocode
 **Note : Pseudocode resembles python syntaxing because of convenience**
