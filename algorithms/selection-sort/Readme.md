@@ -6,7 +6,7 @@ Generally considered as slow and easy sorting algorithm, easy to implement and u
 
 ## Flowchart
 <!-- picture here -->
-
+![flowchart](https://github.com/saksham-ghimire/software-architectures/blob/main/algorithms/selection-sort/SelectionSort.png)
 ## Pseudocode
 **Note : Pseudocode resembles python syntaxing because of convenience**
 ```
