@@ -6,7 +6,7 @@ An convenient sorting algorithm that uses recursion to sort element of list/arra
 
 ## Flowchart
 <!-- picture here -->
-
+![flowchart](https://github.com/saksham-ghimire/software-architectures/blob/main/algorithms/quicksort/QuickSortFlowchart.png)
 ## Pseudocode
 **Note : Pseudocode resembles python syntaxing because of convenience**
 ```
