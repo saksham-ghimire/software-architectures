@@ -1,7 +1,4 @@
-processed = []
-
-
-def find_lowest_cost(costs):
+def find_lowest_cost(costs, processed):
     l_node = None
     l_node_value = float("inf")
     for key, value in costs.items():
@@ -12,20 +9,21 @@ def find_lowest_cost(costs):
 
 
 def dijkstra(graph, start):
+    processed = []
     costs = {**graph[start]}
 
-    for key, value in graph.items():
+    for key, _ in graph.items():
         if key == start:
             continue
-        for i in value.keys():
-            costs[i] = float("inf")
+        if key not in costs:
+            costs[key] = float("inf")
 
     parents = {}
     for i in graph[start].keys():
         parents[i] = start
 
     while True:
-        lowest_cost_node = find_lowest_cost(costs)
+        lowest_cost_node = find_lowest_cost(costs, processed)
         if lowest_cost_node is None:
             break
         neighbors = graph[lowest_cost_node].keys()
@@ -34,23 +32,5 @@ def dijkstra(graph, start):
                 costs[n] = costs[lowest_cost_node] + graph[lowest_cost_node][n]
                 parents[n] = lowest_cost_node
         processed.append(lowest_cost_node)
-
-    return parents, costs
-
-
-graph = {
-    "book": {"lp": 5, "poster": 0},
-    "lp": {"drum": 20, "guitar": 15},
-    "poster": {"guitar": 30, "drum": 35},
-    "guitar": {"piano": 20},
-    "drum": {"piano": 10},
-    "piano": {},
-}
-
-parents, costs = dijkstra(graph, "book")
-print(f"lowest cost to reach piano is {costs['piano']} with chart \n-> piano")
-current_value = "piano"
-
-while current_value != "book":
-    current_value = parents[current_value]
-    print("->", current_value)
+    # also return parent if needed
+    return costs

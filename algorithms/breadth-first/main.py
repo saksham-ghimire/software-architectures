@@ -3,6 +3,9 @@ from collections import deque
 
 def breadth_first(graph, element, start):
     queue = deque()
+    # for empty graph ..
+    if graph.get(start, None) is None:
+        return f"not found"
     queue += graph[start]
     processed = []
     while queue:
@@ -10,16 +13,10 @@ def breadth_first(graph, element, start):
         if e in processed:
             continue
         if e == element:
-            return f"Found"
+            return f"found"
         else:
             if graph.get(e, None) is not None:
                 queue += graph.get(e)
         processed.append(e)
-    return f"Not found"
 
-
-print(
-    breadth_first(
-        graph={"you": ["a", "b", "c"], "a": ["d", "e"]}, element="e", start="you"
-    )
-)
+    return f"not found"
